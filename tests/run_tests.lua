@@ -1,0 +1,7 @@
+require 'test'
+
+for i = 1, #test.fails do
+    local fail = test.fails[i]
+    print(i .. ". " .. fail.message)
+    print(fail.trace)
+end
