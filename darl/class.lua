@@ -2,7 +2,7 @@
 function class()
     local class_object = {}
 
-    class_object.is_class_of = function(instance)
+    function class_object.is_domain_of(instance)
         return class_object == getmetatable(instance).class
     end
 
@@ -22,4 +22,4 @@ function class()
     return class_object
 end
 
-/* vim:set ts=4 sw=4 sts=4 et: */
+-- vim:set ts=4 sw=4 sts=4 et:

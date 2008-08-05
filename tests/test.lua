@@ -129,4 +129,4 @@ do -- test assert_length()
     test.fails[#test.fails] = nil
 end
 
-/* vim:set ts=4 sw=4 sts=4 et: */
+-- vim:set ts=4 sw=4 sts=4 et:
