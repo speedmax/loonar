@@ -6,3 +6,5 @@ for i = 1, #test.fails do
     print(i .. ". " .. fail.message)
     print(fail.trace)
 end
+
+/* vim:set ts=4 sw=4 sts=4 et: */
