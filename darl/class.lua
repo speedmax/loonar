@@ -6,6 +6,10 @@ function class()
         return class_object == getmetatable(instance).class
     end
 
+	function class_object.is_subclass_of(class)
+		return class == table
+	end
+
     local class_protocol = {
         __call = function()
             local instance = {}
