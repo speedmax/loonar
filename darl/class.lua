@@ -17,15 +17,22 @@ function class(class_object)
     local class_protocol = {
         __call = function(instance, ...)
             local instance = instance or {}
-            local instance_protocol = {
+						local constructor = nil
+						
+						if (type(instance[1]) == 'function') then
+							constructor = table.remove(instance, 1)
+						elseif instance.initalize then
+							constructor = instance.initialize
+						end
+						
+						local instance_protocol = table.merge({
                 class = class_object
-            }
-            local constructor = instance[1] or nil
+            }, overload)
 
-						instance_protocol = table.merge(instance_protocol, overload)
             setmetatable(instance, instance_protocol)
 
             if (constructor) then
+								class_object.initalize = constructor
                 self = instance
                 constructor(...)
             end

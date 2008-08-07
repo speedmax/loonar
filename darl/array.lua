@@ -9,7 +9,7 @@ Array = class {
     
 		each = function(func)
 			for k,v in pairs(self.data) do 
-				func(k,v) 
+				func(v, k) 
 			end
 		end,
 
