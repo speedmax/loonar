@@ -7,7 +7,7 @@ require 'darl.set'
 require 'tests.test'
 require 'tests.class'
 require 'tests.object'
-require 'tests.set_test'
+require 'tests.set'
 
 -- Helper functions for __LINE__ and __FILE__
 function __FILE__() return debug.getinfo(2,'S').source end

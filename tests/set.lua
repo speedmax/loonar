@@ -1,7 +1,8 @@
 
 list = Set {111,222,333,444}
 
-print (list[1])
+test.assert_true(list[1], 111)
 
+test.assert_true(list[4], 444)
 
-list.each(function(e) print('hello') end)
+test.assert_false(list[5], 555)
