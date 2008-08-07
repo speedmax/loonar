@@ -7,6 +7,7 @@ Person = class {
 	
 	destory = function() end
 }
+p1 = Person('Taylor luk', 26)
 
 -- Object relationship
 test.assert_true(Person.is_domain_of(p1))
@@ -15,7 +16,6 @@ test.assert_true(Person.is_subclass_of(table))
 
 
 -- Object creation and property access
-p1 = Person('Taylor luk', 26)
 test.assert_true(p1.name == 'Taylor luk')
 test.assert_true(p1.age == 26)
 
