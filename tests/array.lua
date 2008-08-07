@@ -1,16 +1,19 @@
 
---[[
-list = array({111,222,333,444})
 
-test.assert_equals(111, list[1])
+list = a{11,22,33}
 
-test.assert_equals(444, list[4])
-test.assert_false(555 == list[5])
+-- FIXME: This is failing because list[1] refer to numeric index
+-- constructor function, so the __index overload never run for this one
+-- need more research make class method never gets exposed
+test.assert_equals(list[1], 11)
 
+test.assert_equals(list[2], 22)
+test.assert_equals(list[3], 33)
 
-array.each({1,2,3}, function(e) print 'hello' end)
+local sum = 0
 
-sum = 0
-list.each(function(e) sum = sum + e end)
-test.assert_equals(111 + 222 + 333 + 444, sum)
-]]--
+list.each(function(key, value) 
+	sum = sum + value
+end)
+
+test.assert_equals(11 + 22 + 33, sum)

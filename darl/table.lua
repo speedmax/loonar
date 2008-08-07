@@ -8,7 +8,7 @@
 -- returns
 --   @param u: copy of table
 function table.clone (t)
-  local u = setmetatable ({}, getmetatable (t))
+  local u = setmetatable({}, getmetatable(t))
   for i, v in pairs (t) do
     u[i] = v
   end
@@ -22,19 +22,23 @@ end
 -- returns
 --   @param r: the merged table
 function table.merge (t, u)
-  local r = table.clone (t)
-  for i, v in pairs (u) do
-    r[i] = v
-  end
-  return r
+		local r = {}
+		for i, v in pairs(t) do
+		  r[i] = v
+		end
+		for i, v in pairs(u) do
+		  r[i] = v
+		end
+
+	  return r
 end
 
 function inspect(object)
-    result = ''
+    local result
     if (type(object) == 'table') then
         result = table.show(object)
     else
-        result =  ""..object
+        result =  object
     end
     print(result)
 end

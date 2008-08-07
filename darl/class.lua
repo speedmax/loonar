@@ -22,6 +22,7 @@ function class(class_object)
             }
             local constructor = instance[1] or nil
 
+						instance_protocol = table.merge(instance_protocol, overload)
             setmetatable(instance, instance_protocol)
 
             if (constructor) then
@@ -32,7 +33,6 @@ function class(class_object)
         end
     }
     
-    class_protocol = table.merge(class_protocol, overload)
     
     setmetatable(class_object, class_protocol)
 
