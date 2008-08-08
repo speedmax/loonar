@@ -1,12 +1,12 @@
 #!/usr/bin/env lua
 
 -- Load language extensions
-require 'darl.table'
+require 'loonar.table'
 
--- Load darl 
-require 'darl.class'
-require 'darl.object'
-require 'darl.array'
+-- Load loonar 
+require 'loonar.class'
+require 'loonar.object'
+require 'loonar.array'
 
 
 require 'tests.test'
@@ -21,17 +21,17 @@ function __LINE__() return debug.getinfo(2, 'l').currentline end
 
 -- Execute all tests
 for i = 1, #test.fails do
-    local fail = test.fails[i]
-    print(i .. ". " .. fail.message)
-    print(fail.trace)
+  local fail = test.fails[i]
+  print(i .. ". " .. fail.message)
+  print(fail.trace)
 end
 
 if #test.fails == 1 then
-	print("1 test failed!")
+  print("1 test failed!")
 elseif #test.fails > 1 then
-	print(#test.fails .. " tests failed!")
+  print(#test.fails .. " tests failed!")
 else
-	print "all tests succeed!"
+  print "all tests succeed!"
 end
 
--- vim:set ts=4 sw=4 sts=4 et:
+-- vim:set ts=2 sw=2 sts=2 et:

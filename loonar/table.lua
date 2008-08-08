@@ -22,35 +22,35 @@ end
 -- returns
 --   @param r: the merged table
 function table.merge (t, u)
-		local r = {}
-		for i, v in pairs(t) do
-		  r[i] = v
-		end
-		for i, v in pairs(u) do
-		  r[i] = v
-		end
+  local r = {}
+  for i, v in pairs(t) do
+    r[i] = v
+  end
+  for i, v in pairs(u) do
+    r[i] = v
+  end
 
-	  return r
+  return r
 end
 
 function table.contains(table, key)
-	local result
+  local result
 
-	for k, v in pairs(table) do
-		result = result or k == key
-	end
+  for k, v in pairs(table) do
+    result = result or k == key
+  end
 
-	return result
+  return result
 end
 
 function inspect(object)
-    local result
-    if (type(object) == 'table') then
-        result = table.show(object)
-    else
-        result =  object
-    end
-    print(result)
+  local result
+  if (type(object) == 'table') then
+      result = table.show(object)
+  else
+      result =  object
+  end
+  print(result)
 end
 --[[
    Author: Julio Manuel Fernandez-Diaz
@@ -82,78 +82,80 @@ end
       indent is a first indentation (optional).
 --]]
 function table.show(t, name, indent)
-   local cart     -- a container
-   local autoref  -- for self references
+  local cart     -- a container
+  local autoref  -- for self references
 
-   --[[ counts the number of elements in a table
-   local function tablecount(t)
-      local n = 0
-      for _, _ in pairs(t) do n = n+1 end
-      return n
-   end
-   ]]
-   -- (RiciLake) returns true if the table is empty
-   local function isemptytable(t) return next(t) == nil end
+  --[[ counts the number of elements in a table
+  local function tablecount(t)
+    local n = 0
+    for _, _ in pairs(t) do n = n+1 end
+    return n
+  end
+  ]]
+  -- (RiciLake) returns true if the table is empty
+  local function isemptytable(t) return next(t) == nil end
 
-   local function basicSerialize (o)
-      local so = tostring(o)
-      if type(o) == "function" then
-         local info = debug.getinfo(o, "S")
-         -- info.name is nil because o is not a calling level
-         if info.what == "C" then
-            return string.format("%q", so .. ", C function")
-         else 
-            -- the information is defined through lines
-            return string.format("%q", so .. ", defined in (" ..
-                info.linedefined .. "-" .. info.lastlinedefined ..
-                ")" .. info.source)
-         end
-      elseif type(o) == "number" then
-         return so
-      else
-         return string.format("%q", so)
+  local function basicSerialize (o)
+    local so = tostring(o)
+    if type(o) == "function" then
+      local info = debug.getinfo(o, "S")
+      -- info.name is nil because o is not a calling level
+      if info.what == "C" then
+        return string.format("%q", so .. ", C function")
+      else 
+        -- the information is defined through lines
+        return string.format("%q", so .. ", defined in (" ..
+          info.linedefined .. "-" .. info.lastlinedefined ..
+         ")" .. info.source)
       end
-   end
+    elseif type(o) == "number" then
+      return so
+    else
+      return string.format("%q", so)
+    end
+  end
 
-   local function addtocart (value, name, indent, saved, field)
-      indent = indent or ""
-      saved = saved or {}
-      field = field or name
+  local function addtocart (value, name, indent, saved, field)
+    indent = indent or ""
+    saved = saved or {}
+    field = field or name
 
-      cart = cart .. indent .. field
+    cart = cart .. indent .. field
 
-      if type(value) ~= "table" then
-         cart = cart .. " = " .. basicSerialize(value) .. ";\n"
+    if type(value) ~= "table" then
+      cart = cart .. " = " .. basicSerialize(value) .. ";\n"
+    else
+      if saved[value] then
+        cart = cart .. " = {}; -- " .. saved[value] 
+                    .. " (self reference)\n"
+        autoref = autoref ..  name .. " = " .. saved[value] .. ";\n"
       else
-         if saved[value] then
-            cart = cart .. " = {}; -- " .. saved[value] 
-                        .. " (self reference)\n"
-            autoref = autoref ..  name .. " = " .. saved[value] .. ";\n"
-         else
-            saved[value] = name
-            --if tablecount(value) == 0 then
-            if isemptytable(value) then
-               cart = cart .. " = {};\n"
-            else
-               cart = cart .. " = {\n"
-               for k, v in pairs(value) do
-                  k = basicSerialize(k)
-                  local fname = string.format("%s[%s]", name, k)
-                  field = string.format("[%s]", k)
-                  -- three spaces between levels
-                  addtocart(v, fname, indent .. "   ", saved, field)
-               end
-               cart = cart .. indent .. "};\n"
-            end
-         end
+        saved[value] = name
+        --if tablecount(value) == 0 then
+        if isemptytable(value) then
+          cart = cart .. " = {};\n"
+        else
+          cart = cart .. " = {\n"
+          for k, v in pairs(value) do
+            k = basicSerialize(k)
+            local fname = string.format("%s[%s]", name, k)
+            field = string.format("[%s]", k)
+            -- three spaces between levels
+            addtocart(v, fname, indent .. "   ", saved, field)
+          end
+          cart = cart .. indent .. "};\n"
+        end
       end
-   end
+    end
+  end
 
-   name = name or "__unnamed__"
-   if type(t) ~= "table" then
-      return name .. " = " .. basicSerialize(t)
-   end
-   cart, autoref = "", ""
-   addtocart(t, name, indent)
-   return cart .. autoref
+  name = name or "__unnamed__"
+  if type(t) ~= "table" then
+    return name .. " = " .. basicSerialize(t)
+  end
+  cart, autoref = "", ""
+  addtocart(t, name, indent)
+  return cart .. autoref
 end
+
+-- vim:set ts=2 sw=2 sts=2 et:
