@@ -81,6 +81,10 @@ complex = class {
     )
   end;
 
+  ['=='] = function(self, operand)
+    return self.real == operand.real and self.imaginary == operand.imaginary
+  end;
+
   tostring = function(self)
     return '(' .. self.real .. '+' .. self.imaginary .. 'i)'
   end;
@@ -91,5 +95,10 @@ complex = class {
 
   test.assert_equals(3, (c1 + c2).real)
   test.assert_equals(-3, (c1 - c2).imaginary)
+
+  test.assert_true(c1 == c1)
+  test.assert_true(c2 == c2)
+
+  test.assert_equals(complex(3, 7), c1 + c2)
 
 -- vim:set ts=4 sw=4 sts=4 et:
