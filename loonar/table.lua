@@ -48,10 +48,11 @@ function inspect(object)
   if (type(object) == 'table') then
     result = table.show(object)
   else
-    result =  object
+    result = object
   end
   print(result)
 end
+
 --[[
    Author: Julio Manuel Fernandez-Diaz
    Date:   January 12, 2007
@@ -84,7 +85,7 @@ end
 function table.show(t, name, indent)
   local cart     -- a container
   local autoref  -- for self references
-  
+
   --[[ counts the number of elements in a table
   local function tablecount(t)
     local n = 0
@@ -94,7 +95,7 @@ function table.show(t, name, indent)
   ]]
   -- (RiciLake) returns true if the table is empty
   local function isemptytable(t) return next(t) == nil end
-  
+
   local function basicSerialize (o)
     local so = tostring(o)
     if type(o) == "function" then
@@ -114,14 +115,13 @@ function table.show(t, name, indent)
        return string.format("%q", so)
     end
   end
-  
+
   local function addtocart (value, name, indent, saved, field)
     indent = indent or ""
     saved = saved or {}
-    field = field or name
-  
+    field = field or name  
     cart = cart .. indent .. field
-  
+
     if type(value) ~= "table" then
       cart = cart .. " = " .. basicSerialize(value) .. ";\n"
     else
@@ -157,3 +157,5 @@ function table.show(t, name, indent)
   addtocart(t, name, indent)
   return cart .. autoref
 end
+
+-- vim:set ts=2 sw=2 sts=2 et:
