@@ -1,26 +1,32 @@
--- Set class
+-- Array class
 -- For array or hash like object 
 -- to provide enumerable traversal and searching methods
 Array = class {
   
-    function(data)
+    function(self, data)
         self.data = data
     end, 
-    
-		each = function(func)
-			for k,v in pairs(self.data) do 
-				func(v, k) 
-			end
-		end,
 
-    print = function ()
+	check = function(...)
+		print(...)
+	end;
+    
+	each = function(self, func)
+		for k, v in pairs(self.data) do 
+			func(v, k) 
+		end
+	end,
+
+    print = function(self)
         table.foreach(self.data, print)
     end,
     
-		overload = {
-        __index = function(table, key)
-						return self.data[key]
-        end
-		}
+    ['.'] = function(self, key)
+		if 'number' == type(key) then
+			return self.data[key]
+		else
+			return self[key]
+		end
+	end
 }
 a = Array

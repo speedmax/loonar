@@ -27,6 +27,17 @@ function test.assert_false(condition, message)
     return condition
 end
 
+function test.assert_nil(actual, message)
+    local value = tostring(actual)
+
+    test.assert(
+        actual == nil,
+        message or "actual should be nil, not " .. value
+    )
+
+    return condition
+end
+
 function test.assert_equals(expected, actual, message)
     message = message or
         "expected " .. tostring(expected) .. ", not " .. tostring(actual)

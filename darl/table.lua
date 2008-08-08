@@ -33,6 +33,16 @@ function table.merge (t, u)
 	  return r
 end
 
+function table.contains(table, key)
+	local result
+
+	for k, v in pairs(table) do
+		result = result or k == key
+	end
+
+	return result
+end
+
 function inspect(object)
     local result
     if (type(object) == 'table') then
