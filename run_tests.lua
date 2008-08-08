@@ -1,7 +1,9 @@
 #!/usr/bin/env lua
 
--- Load language extensions
+require 'tests.test'
+-- Load Native extensions
 require 'loonar.table'
+require 'loonar.string'
 
 -- Load loonar 
 require 'loonar.class'
@@ -9,10 +11,13 @@ require 'loonar.object'
 require 'loonar.array'
 
 
-require 'tests.test'
+
 require 'tests.class'
 require 'tests.object'
 require 'tests.array'
+
+
+
 
 -- Helper functions for __LINE__ and __FILE__
 function __FILE__() return debug.getinfo(2, 'S').source end
