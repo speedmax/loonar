@@ -1,26 +1,69 @@
+-- Class Example
+
+foo = class {
+  self = function(self)
+    return self
+  end;
+
+  ['+'] = function(self, operand)
+    return '+ ' .. tostring(operand)
+  end;
+
+  ['.'] = function(self, key)
+    return key
+  end;
+
+  tostring = function(self)
+    return self.name
+  end;
+}
+
+  -- using default constructor
+  f = foo { name = 'foo'; bar = true; tostring = 'string'; }
+
+  -- Object relationship
+  test.assert_true(foo.is_domain_of(f))
+  test.assert_false(class().is_domain_of(f))
+  test.assert_true(foo.is_subclass_of(table))
+
+  -- index
+  test.assert_equals(f, f.self())
+  test.assert_equals('foo', f.name)
+  test.assert_equals('string', f.tostring)
+  test.assert_true(f.bar)
+
+  -- Operator Overloading
+  test.assert_equals('+ 123', f + 123)
+  test.assert_equals(123, f[123])
+  test.assert_equals(f, f[f])
+  test.assert_equals('abc', f.abc)
+
+  -- Magic Method
+  test.assert_equals(f.name, tostring(f))
+
+
+-- person Class Example
 
 person = class {
   function(self, name, age)
     self.name = name
     self.age = age
   end;
-
+  
   destory = function(self) end;
 }
 
-p1 = person('Taylor luk', 26)
+  p1 = person('Taylor luk', 26)
 
--- Object relationship
-test.assert_true(person.is_domain_of(p1))
-test.assert_false(class().is_domain_of(p1))
-test.assert_true(person.is_subclass_of(table))
+  -- Object creation and property access
+  test.assert_equals('Taylor luk', p1.name)
+  test.assert_equals(26, p1.age)
 
--- Object creation and property access
-test.assert_equals('Taylor luk', p1.name)
-test.assert_equals(26, p1.age)
+
+-- complex Number Example
 
 complex = class {
-  function(self, real, imaginary)
+  initialize = function(self, real, imaginary)
     self.real, self.imaginary = real, imaginary
   end;
 
@@ -43,17 +86,10 @@ complex = class {
   end;
 }
 
-c1 = complex(1, 2)
-c2 = complex(2, 5)
+  c1 = complex(1, 2)
+  c2 = complex(2, 5)
 
-test.assert_true(complex.is_domain_of(c1))
+  test.assert_equals(3, (c1 + c2).real)
+  test.assert_equals(-3, (c1 - c2).imaginary)
 
-added = c1 + c2
-test.assert_equals(3, added.real)
-test.assert_equals(7, added.imaginary)
-
-subtracted = c1 - c2
-test.assert_equals(-1, subtracted.real)
-test.assert_equals(-3, subtracted.imaginary)
-
--- vim:set ts=2 sw=2 sts=2 et:
+-- vim:set ts=4 sw=4 sts=4 et:
