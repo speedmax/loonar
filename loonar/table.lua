@@ -46,12 +46,13 @@ end
 function inspect(object)
   local result
   if (type(object) == 'table') then
-      result = table.show(object)
+    result = table.show(object)
   else
-      result =  object
+    result = object
   end
   print(result)
 end
+
 --[[
    Author: Julio Manuel Fernandez-Diaz
    Date:   January 12, 2007
@@ -106,20 +107,19 @@ function table.show(t, name, indent)
         -- the information is defined through lines
         return string.format("%q", so .. ", defined in (" ..
           info.linedefined .. "-" .. info.lastlinedefined ..
-         ")" .. info.source)
+          ")" .. info.source)
       end
     elseif type(o) == "number" then
-      return so
+       return so
     else
-      return string.format("%q", so)
+       return string.format("%q", so)
     end
   end
 
   local function addtocart (value, name, indent, saved, field)
     indent = indent or ""
     saved = saved or {}
-    field = field or name
-
+    field = field or name  
     cart = cart .. indent .. field
 
     if type(value) ~= "table" then
@@ -132,23 +132,23 @@ function table.show(t, name, indent)
       else
         saved[value] = name
         --if tablecount(value) == 0 then
-        if isemptytable(value) then
-          cart = cart .. " = {};\n"
-        else
-          cart = cart .. " = {\n"
-          for k, v in pairs(value) do
-            k = basicSerialize(k)
-            local fname = string.format("%s[%s]", name, k)
-            field = string.format("[%s]", k)
-            -- three spaces between levels
-            addtocart(v, fname, indent .. "   ", saved, field)
-          end
-          cart = cart .. indent .. "};\n"
+      if isemptytable(value) then
+        cart = cart .. " = {};\n"
+      else
+        cart = cart .. " = {\n"
+        for k, v in pairs(value) do
+          k = basicSerialize(k)
+          local fname = string.format("%s[%s]", name, k)
+          field = string.format("[%s]", k)
+          -- three spaces between levels
+          addtocart(v, fname, indent .. "   ", saved, field)
         end
+        cart = cart .. indent .. "};\n"
+      end
       end
     end
   end
-
+  
   name = name or "__unnamed__"
   if type(t) ~= "table" then
     return name .. " = " .. basicSerialize(t)

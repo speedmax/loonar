@@ -1,25 +1,26 @@
--- Implementation of a class
--- Using lua metatable
 -- 
+-- Implementation of a class
+-- @func class : responsible of class and object creation
+-- returns
+--    @param class_object: object class
 function class(class_object)
   local events_map = {
+    -- Getter and Setters
     __index = '.', __newindex = '.=';
-    __lt = '<', __le = '<=';
---    __??? = '==';
-
+    -- Comparision
+    __lt = '<', __le = '<=',  __eq = '==';
+    -- Arithmetic
     __add = '+', __sub = '-', __mul = '*', __div = '/', __pow = '^';
+    
     __concat = '..';
-
     __call = '__call';
-
---    __unm = '-';
-
-    __gc = 'destroy';
-
     __tostring = 'tostring';
+    __gc = 'destroy';
+--  this is negation not subtraction, what is the best api for this? 'neg'?
+--  __unm = '-'; 
   }
 
-    local class_object = class_object or {}
+  local class_object = class_object or {}
   local instance_protocol = { class = class_object }
 
   table.foreach(events_map, function(event, method)
@@ -42,9 +43,9 @@ function class(class_object)
     end
   end
 
-    function class_object.is_domain_of(instance)
-        return class_object == getmetatable(instance).class
-    end
+  function class_object.is_domain_of(instance)
+    return class_object == getmetatable(instance).class
+  end
 
   function class_object.is_subclass_of(class)
     return class == table
@@ -73,9 +74,8 @@ function class(class_object)
     end
   }
 
-    setmetatable(class_object, class_protocol)
-
-    return class_object
+  setmetatable(class_object, class_protocol)
+  return class_object
 end
 
 -- vim:set ts=4 sw=4 sts=4 et:

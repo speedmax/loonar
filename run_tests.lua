@@ -18,7 +18,6 @@ require 'tests.array'
 function __FILE__() return debug.getinfo(2, 'S').source end
 function __LINE__() return debug.getinfo(2, 'l').currentline end
 
-
 -- Execute all tests
 for i = 1, #test.fails do
   local fail = test.fails[i]

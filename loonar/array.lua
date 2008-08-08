@@ -1,6 +1,9 @@
+--
 -- Array class
--- For array or hash like object 
--- to provide enumerable traversal and searching methods
+-- @class array : 
+--    implements a array class
+--    to provide enumerable traversal and searching methods
+
 array = class {
   function(self, data)
     self.data = data
