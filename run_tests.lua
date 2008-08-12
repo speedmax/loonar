@@ -1,6 +1,8 @@
 #!/usr/bin/env lua
 
 require 'tests.test'
+require 'loonar.spec'
+
 -- Load Native extensions
 require 'loonar.table'
 require 'loonar.string'
@@ -10,14 +12,14 @@ require 'loonar.class'
 require 'loonar.object'
 require 'loonar.array'
 
-
-
+-- Tests
+require 'spec.array'
 require 'tests.class'
 require 'tests.object'
 require 'tests.array'
 
-
-
+-- Report executed spec result
+spec.report()
 
 -- Helper functions for __LINE__ and __FILE__
 function __FILE__() return debug.getinfo(2, 'S').source end

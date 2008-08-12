@@ -110,7 +110,10 @@ array = class {
   end;
   
   ['.'] = function(self, key)
-    return self[key]
+		if rawget(self, key) then
+    	return self[key]
+		end
+		return false
   end;
   
   -- FIXEME: equality test should be recursive solution against their value
