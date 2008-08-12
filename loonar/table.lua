@@ -45,7 +45,7 @@ end
 
 function inspect(object)
   local result
-  if (type(object) == 'table') then
+  if type(object) == 'table' then
     result = table.show(object)
   else
     result = object

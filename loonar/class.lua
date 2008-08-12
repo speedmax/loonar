@@ -28,7 +28,7 @@ function class(class_object)
       instance_protocol[event] = class_object[method]
     elseif event == '__index' and class_object[events_map.__index] then
       instance_protocol.___index = class_object[events_map.__index]
-    end	
+    end
   end)
 
   function instance_protocol:__index(member)
