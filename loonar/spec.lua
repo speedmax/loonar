@@ -53,7 +53,7 @@ spec.report = function ()
   for context, cases in pairs(spec.contexts) do
     print (("%s\n================================"):format(context))
     for description, result in pairs(cases) do
-      local outcome = result.passed and 'passed' or "failed"
+      local outcome = result.passed and 'pass' or "FAILED"
 
       if spec.verbose or not (spec.verbose and result.passed) then
         print(("%-70s [ %s ]"):format(" - " .. description, outcome))
@@ -136,8 +136,7 @@ matchers.should_equal = matchers.should_be
 -- Expectation function
 --
 function expect(target)
-  local instance = { value = target }  
-
+  local instance = { value = target }
   local executor = function (self, method)
     return function(...)
       if not matchers[method] then

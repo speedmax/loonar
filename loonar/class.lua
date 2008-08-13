@@ -62,6 +62,8 @@ function class(class_object)
     class_object.initialize = constructor
   elseif type(class_object.initialize) == 'function' then
     constructor = class_object.initialize
+  else 
+    class_object.initialize = constructor
   end
 
   local class_protocol = {

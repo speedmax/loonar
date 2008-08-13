@@ -1,5 +1,4 @@
 -- Class Example
-
 foo = class {
   self = function(self)
     return self
@@ -17,6 +16,7 @@ foo = class {
     return self.name
   end;
 }
+
 
   -- using default constructor
   f = foo { name = 'foo'; bar = true; tostring = 'string'; }
@@ -89,6 +89,8 @@ complex = class {
     return '(' .. self.real .. '+' .. self.imaginary .. 'i)'
   end;
 }
+
+
 
   c1 = complex(1, 2)
   c2 = complex(2, 5)
