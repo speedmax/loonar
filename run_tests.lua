@@ -18,6 +18,7 @@ require 'tests.class'
 require 'tests.object'
 
 -- Report executed spec result
+spec.verbose = true
 spec.report()
 
 -- Helper functions for __LINE__ and __FILE__

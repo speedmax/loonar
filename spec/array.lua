@@ -4,6 +4,14 @@ describe ('array')
 		self.list = a{888}
 	end;
 	
+	["array.first should return the first element"] = function(self)
+	  expect(self.list.first).should_be(self.list[1])
+	end;
+	
+	["array.last should return the last element"] = function(self)
+	  expect(self.list.last).should_be(self.list[#self.list])
+	end;
+	
 	["allows insertion of elements"] = function(self)
 		self.list[2] = 22
 		expect(self.list[2]).should_be(22)
@@ -14,6 +22,8 @@ describe ('array')
 
 		-- Failed expectation
 		expect(self.list[2]).should_be(2)
+				expect(true).should_be(false)
+
 	end;
 }
 

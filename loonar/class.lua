@@ -11,13 +11,12 @@ function class(class_object)
     __lt = '<', __le = '<=',  __eq = '==';
     -- Arithmetic
     __add = '+', __sub = '-', __mul = '*', __div = '/', __pow = '^';
-    
+    -- Unary negation
+    __unm = '-neg';
     __concat = '..';
     __call = '__call';
     __tostring = 'tostring';
     __gc = 'destroy';
---  this is negation not subtraction, what is the best api for this? 'neg'?
---  __unm = '-'; 
   }
 
   local class_object = class_object or {}
@@ -36,6 +35,8 @@ function class(class_object)
       return function(...)
         return class_object[member](self, ...)
       end
+    elseif type(member) == 'string' and type(class_object['.'..member]) == 'function' then
+      return class_object['.'..member](self)
     elseif type(instance_protocol.___index) == 'function' then
       return instance_protocol.___index(self, member)
     else
