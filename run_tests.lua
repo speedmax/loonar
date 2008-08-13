@@ -16,7 +16,7 @@ require 'loonar.array'
 require 'spec.array'
 require 'tests.class'
 require 'tests.object'
-require 'tests.array'
+-- require 'tests.array'
 
 -- Report executed spec result
 spec.report()

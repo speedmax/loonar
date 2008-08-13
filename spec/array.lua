@@ -13,7 +13,7 @@ describe ('array')
 		expect(self.list[1]).should_be(888)
 
 		-- Failed expectation
-		expect(self.list[2]).should_be(2)
+		--expect(self.list[2]).should_be(2)
 	end;
 }
 
@@ -45,17 +45,17 @@ describe ('array - transformation iterator')
 		
 		type_of(result).should_be 'table'
 		expect(result).should_be(a{112,223,334,445})
-		
+		expect(self.list).should_be(a{111,222,333,444})
 	end;
 	
-	["array#reduce reduces reduces to singular value"] = function(self)
-		local result = self.list.reduce(0, function(sum, value) 
-	    return sum + value
-	  end)
-	
-		type_of(result).should_be "number"
-	  expect(result).should_be(111 + 222 + 333 + 444)
-	end;
+  ["array#reduce reduces reduces to singular value"] = function(self)
+    local result = self.list.reduce(0, function(sum, value) 
+      return sum + value
+    end)
+
+    type_of(result).should_be "number"
+    expect(result).should_be(111 + 222 + 333 + 444)
+  end;
 }
 
 describe ("array - conditional iterator") 
@@ -99,4 +99,27 @@ describe ("array - conditional iterator")
 		expect(result == a{}).should_be_false()
 		
 	end;
+}
+
+describe ("array - utilities")
+{
+  ["array#merge"] = function(self)
+    expect(a{1, 2}.merge(a{3, 4})).should_be(a{1, 2, 3, 4})
+  end;
+
+  ["array#flatten should flatten a multidimensional array into a single array"] = function(self)
+    local array = a{
+		1, 2, 3, 4, a{a{5}, 6, 7, 8, a{9, 10, a{11}, 12, 13}, 14, a{15, 16}},
+		17, 18, a{a{a{a{a{a{19}}}}}}, 20, 21, a{22, a{23, a{24, a{25}}}}
+	}
+
+	expect(array.flatten()).should_be(a{
+		 1,  2,  3,  4,  5,
+		 6,  7,  8,  9, 10,
+		11, 12, 13, 14, 15,
+		16, 17, 18, 19, 20,
+		21, 22, 23, 24, 25
+	})
+
+  end;
 }

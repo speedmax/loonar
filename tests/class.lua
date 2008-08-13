@@ -25,6 +25,7 @@ foo = class {
   test.assert_true(foo.is_domain_of(f))
   test.assert_false(class().is_domain_of(f))
   test.assert_true(foo.is_subclass_of(table))
+  test.assert_false(foo.is_domain_of(1))
 
   -- index
   test.assert_equals(f, f.self())

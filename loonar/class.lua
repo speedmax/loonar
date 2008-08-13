@@ -44,7 +44,11 @@ function class(class_object)
   end
 
   function class_object.is_domain_of(instance)
-    return class_object == getmetatable(instance).class
+    if getmetatable(instance) then
+      return class_object == getmetatable(instance).class
+	else
+      return false
+    end
   end
 
   function class_object.is_subclass_of(class)

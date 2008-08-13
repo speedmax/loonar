@@ -32,8 +32,23 @@ array = class {
   end;
   
   -- Manipulations
+
+  cloned = function(self)
+    cloned = a{}
+    self.each(function(value)
+      cloned.push(value)
+    end)
+    return cloned
+  end;
+
   push = function(self, value)
     return table.insert(self, value)
+  end;
+
+  merge = function(self, value)
+    local merged = self.cloned()
+    value.each(merged.push)
+    return merged
   end;
 
   shift = function(self)
@@ -108,12 +123,27 @@ array = class {
     end
     return results
   end;
+
+  flatten = function(self)
+    local flattened = a{}
+
+    self.each(function(value)
+      if array.is_domain_of(value) then
+	    value = value.flatten()
+      else
+	    value = a{value}
+      end
+	  flattened = flattened.merge(value)
+    end)
+
+    return flattened
+  end;
   
   ['.'] = function(self, key)
-		if rawget(self, key) then
-    	return self[key]
-		end
-		return false
+    if rawget(self, key) then
+      return self[key]
+    end
+    return false
   end;
   
   -- FIXEME: equality test should be recursive solution against their value
