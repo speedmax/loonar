@@ -40,54 +40,8 @@ spec = {
   contexts = {}, passed = 0, failed = 0, verbose = false, current = nil
 }
 
--- Report spec failure and success rates
-spec.report = function ()
-  local total = spec.passed + spec.failed
-  local percent = spec.passed/total*100
-  local contexts = spec.contexts
-  local summery
-  
-  if spec.failed == 0 and not spec.verbose then
-    print "all tests passed"
-    return
-  end
-  
-  -- HACK: preserve hash ordering
-  for index = 1, #contexts do
-    local context, cases = contexts[index], contexts[contexts[index]]
-    print (("%s\n================================"):format(context))
-    
-    for description, result in pairs(cases) do
-      local outcome = result.passed and 'pass' or "FAILED"
-
-      if spec.verbose or not (spec.verbose and result.passed) then
-        print(("%-70s [ %s ]"):format(" - " .. description, outcome))
-
-        table.foreach(result.errors, function(index, error)
-          print ("   ".. index..". Failed expectation : ".. error.message.."\n   "..error.trace)
-        end)
-      end
-    end
-  end
-  
-  summery = [[
-=========  Summery  ============
-  %s Expectations
-    Passed : %s, Failed : %s, Success rate : %.2f percent
-  ]]
-  
-  print (summery:format(total, spec.passed, spec.failed, percent))
-end
-
-spec.add_example = function()
-end;
-
-spec.add_expectation = function()
-end;
-
---
 -- Collection of should matchers
- 
+--
 matchers = {
   should_be = function(self, expected)
     if self.value ~= expected then
@@ -133,7 +87,7 @@ matchers = {
       return false, self.value .. "doesn't match pattern "..pattern
     end
     return true
-  end;	
+  end;  
 }
  
 matchers.should_equal = matchers.should_be
@@ -210,4 +164,42 @@ function describe(context)
   end
 end
 
+-- Report spec failure and success rates
+-- 
+spec.report = function ()
+  local total = spec.passed + spec.failed
+  local percent = spec.passed/total*100
+  local contexts = spec.contexts
+  local summery
+  
+  if spec.failed == 0 and not spec.verbose then
+    print "all tests passed"
+    return
+  end
+  
+  -- HACK: preserve hash ordering
+  for index = 1, #contexts do
+    local context, cases = contexts[index], contexts[contexts[index]]
+    print (("%s\n================================"):format(context))
+    
+    for description, result in pairs(cases) do
+      local outcome = result.passed and 'pass' or "FAILED"
 
+      if spec.verbose or not (spec.verbose and result.passed) then
+        print(("%-70s [ %s ]"):format(" - " .. description, outcome))
+
+        table.foreach(result.errors, function(index, error)
+          print ("   ".. index..". Failed expectation : ".. error.message.."\n   "..error.trace)
+        end)
+      end
+    end
+  end
+  
+  summery = [[
+=========  Summery  ============
+  %s Expectations
+    Passed : %s, Failed : %s, Success rate : %.2f percent
+  ]]
+  
+  print (summery:format(total, spec.passed, spec.failed, percent))
+end
