@@ -14,11 +14,12 @@ require 'loonar.array'
 
 -- Tests
 require 'spec.array'
-require 'tests.class'
+require 'spec.class'
 require 'tests.object'
 -- require 'tests.array'
 
 -- Report executed spec result
+spec.verbose = true
 spec.report()
 
 -- Helper functions for __LINE__ and __FILE__

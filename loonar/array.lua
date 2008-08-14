@@ -9,28 +9,15 @@ array = class {
       self[k] = v
     end
   end; 
-  
-  first = function(self)
+
+  ['.first'] = function(self)
     return self[1]
   end;
   
-  last = function(self)
+  ['.last'] = function(self)
     return self[#self]
   end;
-  
-  -- Note: are this for Hash only?
-  keys = function(self)
-    return self.map(function(value, key) 
-      return key 
-    end)
-  end;
-  
-  values = function(self)
-    return self.map(function(value) 
-      return value 
-    end)
-  end;
-  
+
   -- Manipulations
 
   cloned = function(self)
