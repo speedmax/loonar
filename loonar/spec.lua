@@ -9,7 +9,7 @@ Explaination:
 
 Example:
   -- Describe a context
-  describe ("string")
+  describe "string"
   {
     -- setup [optional]
     before = function(self)
@@ -44,14 +44,19 @@ spec = {
 spec.report = function ()
   local total = spec.passed + spec.failed
   local percent = spec.passed/total*100
+  local contexts = spec.contexts
   local summery
+  
   if spec.failed == 0 and not spec.verbose then
     print "all tests passed"
     return
   end
   
-  for context, cases in pairs(spec.contexts) do
+  -- HACK: preserve hash ordering
+  for index = 1, #contexts do
+    local context, cases = contexts[index], contexts[contexts[index]]
     print (("%s\n================================"):format(context))
+    
     for description, result in pairs(cases) do
       local outcome = result.passed and 'pass' or "FAILED"
 
@@ -144,8 +149,11 @@ function expect(target)
       end
 
       local success, message = matchers[method](self, ...)
-      spec.current.passed = success
-
+      
+      if spec.current.passed then
+        spec.current.passed = success
+      end
+      
       if success then
         spec.passed = spec.passed + 1
       else
@@ -168,13 +176,17 @@ value_of = expect
 -- Descript a context
 -- 
 function describe(context)
+
+  -- Hack reserve hash ordering
+  spec.contexts[#spec.contexts+1] = context
   spec.contexts[context] = {}
+  local context = spec.contexts[context]
   
   return function(specs)
     local instance = {}
     local before = specs.before and specs.before or nil
     local after = specs.after and specs.after or nil
-    
+
     -- prepare
     if before then
       specs.before = nil
@@ -186,10 +198,8 @@ function describe(context)
 
     -- run
     for description, example in pairs(specs) do
-      spec.contexts[context][description] = { 
-        passed = false, errors = {}
-      }
-      spec.current = spec.contexts[context][description]
+      context[description] = { passed = true, errors = {} }
+      spec.current = context[description]
       example(instance)
     end
  
