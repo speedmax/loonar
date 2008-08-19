@@ -1,4 +1,3 @@
-
 function table.merge(...)
   params = {...}
   result = {}
