@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 
-require 'test'
-require 'class'
+require 'tests.test'
+require 'tests.class'
 
 -- Execute all tests
 for i = 1, #test.fails do
