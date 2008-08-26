@@ -1,4 +1,3 @@
-require 'loonar.table'
 require 'loonar.class'
 
 do -- test table.merge
@@ -72,7 +71,6 @@ do -- test inhieritance
 
   local mydog = pet('bobo', 'taylor luk')
 
-  inspect(mydog)
-  inspect(mydog.body_features)
-  inspect(mydog.talk)
+  print(mydog.body_features)
+  mydog.eat()
 end

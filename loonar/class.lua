@@ -97,13 +97,13 @@ class.prototype = {
         return false
       end
   end;
-  
+
   subclass = function(superclass, prototype)
     -- Missing constructor 
     if not (prototype[1] and type(prototype[1]) == 'function') then
       prototype[1] = superclass.constructor
     end
-    
+
     local classobj = class(prototype)
     
     -- set superclass on classobj metatable, what about instance metatable
